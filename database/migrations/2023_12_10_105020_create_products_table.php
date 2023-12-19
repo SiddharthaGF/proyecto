@@ -35,12 +35,14 @@ return new class extends Migration
 
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 50);
-            $table->string('apellido', 50);
-            $table->char('cedula', 10);
-            $table->date('fecha_nacimiento');
-            $table->string('direccion', 100);
-            $table->char('telefono', 10);
+            $table->string('name');
+            $table->date('fecha_nacimiento')->nullable();
+            $table->string('direccion', 100)->nullable();
+            $table->char('telefono', 10)->nullable();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
 

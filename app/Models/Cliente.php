@@ -6,9 +6,16 @@
 
 namespace App\Models;
 
+use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Carbon\Carbon;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Class Cliente
@@ -30,25 +37,38 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Cliente extends Model
+class Cliente extends Authenticatable implements FilamentUser
 {
-	protected $table = 'clientes';
 
-	protected $casts = [
-		'fecha_nacimiento' => 'datetime'
-	];
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasPanelShield;
 
-	protected $fillable = [
-		'nombre',
-		'apellido',
-		'cedula',
-		'fecha_nacimiento',
-		'direccion',
-		'telefono',
-	];
+    protected $table = 'clientes';
 
-	public function facturas()
-	{
-		return $this->hasMany(Factura::class);
-	}
+    protected $casts = [
+        'fecha_nacimiento' => 'datetime'
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $fillable = [
+        'name',
+        'email',
+        'fecha_nacimiento',
+        'direccion',
+        'password',
+        'telefono',
+    ];
+
+    public function facturas()
+    {
+        return $this->hasMany(Factura::class);
+    }
 }
