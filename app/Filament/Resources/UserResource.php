@@ -38,11 +38,12 @@ class UserResource extends Resource
             ->schema([
                 TextInput::make('name')
                     ->required()
-                    ->unique()
+                    ->unique(ignorable: fn ($record) => $record)
                     ->minLength(2)
                     ->maxLength(5),
                 TextInput::make('email')
                     ->email()
+                    ->unique(ignorable: fn ($record) => $record)
                     ->required()
                     ->maxLength(255),
                 TextInput::make('password')

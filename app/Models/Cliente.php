@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Cliente
- * 
+ *
  * @property int $id
  * @property string $nombre
  * @property string $apellido
@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $imagen
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
+ *
  * @property Collection|Factura[] $facturas
  *
  * @package App\Models
@@ -45,9 +45,6 @@ class Cliente extends Model
 		'fecha_nacimiento',
 		'direccion',
 		'telefono',
-		'descripcion',
-		'categoria',
-		'imagen'
 	];
 
 	public function facturas()

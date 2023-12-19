@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ClienteResource\Pages;
-use App\Filament\Resources\ClienteResource\RelationManagers;
-use App\Models\Cliente;
+use App\Filament\Resources\ProductoResource\Pages;
+use App\Filament\Resources\ProductoResource\RelationManagers;
+use App\Models\Producto;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ClienteResource extends Resource
+class ProductoResource extends Resource
 {
-    protected static ?string $model = Cliente::class;
+    protected static ?string $model = Producto::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -25,30 +25,28 @@ class ClienteResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nombre')
                     ->required()
-                    ->minLength(10)
-                    ->maxLength(50),
-                Forms\Components\TextInput::make('apellido')
-                    ->required()
-                    ->minLength(10)
-                    ->maxLength(50),
-                Forms\Components\TextInput::make('cedula')
-                    ->required()
-                    ->minLength(10)
                     ->unique(ignorable: fn ($record) => $record)
-                    ->maxLength(10),
-                Forms\Components\DatePicker::make('fecha_nacimiento')
+                    ->maxLength(100),
+                Forms\Components\TextInput::make('precio')
                     ->required()
-                    ->native(false),
-                Forms\Components\TextInput::make('direccion')
+                    ->minValue(0.01)
+                    ->numeric(),
+                Forms\Components\DatePicker::make('fecha_vencimiento')
+                    ->native(false)
+                    ->minDate(now())
+                    ->required(),
+                Forms\Components\TextInput::make('descripcion')
                     ->required()
                     ->minLength(10)
                     ->maxLength(100),
-                Forms\Components\TextInput::make('telefono')
-                    ->tel()
-                    ->unique(ignorable: fn ($record) => $record)
+                Forms\Components\TextInput::make('categoria')
                     ->required()
                     ->minLength(10)
-                    ->maxLength(10),
+                    ->maxLength(255),
+                Forms\Components\FileUpload::make('imagen')
+                    ->image()
+                    ->imageEditor()
+                    ->required(),
             ]);
     }
 
@@ -58,23 +56,17 @@ class ClienteResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('apellido')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('cedula')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('fecha_nacimiento')
+                Tables\Columns\TextColumn::make('precio')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('fecha_vencimiento')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('direccion')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('telefono')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('descripcion')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('categoria')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('imagen')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('imagen'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -107,9 +99,9 @@ class ClienteResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListClientes::route('/'),
-            'create' => Pages\CreateCliente::route('/create'),
-            'edit' => Pages\EditCliente::route('/{record}/edit'),
+            'index' => Pages\ListProductos::route('/'),
+            'create' => Pages\CreateProducto::route('/create'),
+            'edit' => Pages\EditProducto::route('/{record}/edit'),
         ];
     }
 }

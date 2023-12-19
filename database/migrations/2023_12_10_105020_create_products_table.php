@@ -41,9 +41,6 @@ return new class extends Migration
             $table->date('fecha_nacimiento');
             $table->string('direccion', 100);
             $table->char('telefono', 10);
-            $table->string('descripcion', 100);
-            $table->string('categoria');
-            $table->string('imagen');
             $table->timestamps();
         });
 
