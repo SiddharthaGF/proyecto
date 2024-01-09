@@ -24,10 +24,4 @@ class Menu extends Page
     {
         Cart::add($producto->id, $producto->nombre, 1, $producto->precio);
     }
-
-
-    public function verCarrito(Producto $producto): void
-    {
-        dd(Cart::content());
-    }
 }
