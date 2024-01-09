@@ -3,6 +3,7 @@
 namespace App\Filament\Clientes\Pages;
 
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Request;
 
 class Pedidos extends Page
 {

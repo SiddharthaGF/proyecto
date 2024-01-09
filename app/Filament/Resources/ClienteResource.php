@@ -23,32 +23,24 @@ class ClienteResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nombre')
+                Forms\Components\TextInput::make('name')
                     ->required()
-                    ->minLength(10)
-                    ->maxLength(50),
-                Forms\Components\TextInput::make('apellido')
-                    ->required()
-                    ->minLength(10)
-                    ->maxLength(50),
-                Forms\Components\TextInput::make('cedula')
-                    ->required()
-                    ->minLength(10)
-                    ->unique(ignorable: fn ($record) => $record)
-                    ->maxLength(10),
-                Forms\Components\DatePicker::make('fecha_nacimiento')
-                    ->required()
-                    ->native(false),
+                    ->maxLength(255),
+                Forms\Components\DatePicker::make('fecha_nacimiento'),
                 Forms\Components\TextInput::make('direccion')
-                    ->required()
-                    ->minLength(10)
                     ->maxLength(100),
                 Forms\Components\TextInput::make('telefono')
                     ->tel()
-                    ->unique(ignorable: fn ($record) => $record)
-                    ->required()
-                    ->minLength(10)
                     ->maxLength(10),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -56,11 +48,7 @@ class ClienteResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nombre')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('apellido')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('cedula')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('fecha_nacimiento')
                     ->date()
@@ -69,12 +57,11 @@ class ClienteResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('telefono')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('descripcion')
+                Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('categoria')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('imagen')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('email_verified_at')
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

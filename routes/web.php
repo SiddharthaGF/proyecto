@@ -23,4 +23,7 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+Route::view('pedidos', 'filament.clientes.pages.pedidos');
+Route::view('menu', 'filament.clientes.pages.menu');
+
+require __DIR__ . '/auth.php';

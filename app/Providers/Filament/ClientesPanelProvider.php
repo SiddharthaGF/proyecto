@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Clientes\Pages\Menu;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -33,7 +34,7 @@ class ClientesPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Clientes/Resources'), for: 'App\\Filament\\Clientes\\Resources')
             ->discoverPages(in: app_path('Filament/Clientes/Pages'), for: 'App\\Filament\\Clientes\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                Menu::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Clientes/Widgets'), for: 'App\\Filament\\Clientes\\Widgets')
             ->widgets([

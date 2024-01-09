@@ -9,12 +9,14 @@ namespace App\Models;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -39,10 +41,11 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class Cliente extends Authenticatable implements FilamentUser
 {
-
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasPanelShield;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     protected $table = 'clientes';
+
+    protected $guard_name = 'cliente';
 
     protected $casts = [
         'fecha_nacimiento' => 'datetime'
@@ -66,6 +69,18 @@ class Cliente extends Authenticatable implements FilamentUser
         'password',
         'telefono',
     ];
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->hasRole('panel_cliente');
+    }
+
+    protected static function boot()
+    {
+        static::created(fn ($client) => $client->assignRole('panel_cliente'));
+        static::deleting(fn ($client) => $client->removeRole('panel_cliente'));
+        parent::boot();
+    }
 
     public function facturas()
     {

@@ -46,6 +46,10 @@ class ProductoResource extends Resource
                 Forms\Components\FileUpload::make('imagen')
                     ->image()
                     ->imageEditor()
+                    ->imageResizeMode('cover')
+                    ->imageCropAspectRatio('16:9')
+                    ->imageResizeTargetWidth('400')
+                    ->imageResizeTargetHeight('400')
                     ->required(),
             ]);
     }
